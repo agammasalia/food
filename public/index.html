@@ -1,0 +1,94 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="food">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Food for Emeril</title>
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		html 					{ overflow-y:scroll; }
+		body 					{ padding-top:50px; }
+		#food-list 				{ margin-bottom:30px; }
+		#food-form 	 			{ margin-bottom:50px; }
+	</style>
+
+	<!-- SPELLS -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+
+	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+	<script src="js/services/foods.js"></script> <!-- load our food service -->
+	<script src="js/core.js"></script> <!-- load our main application -->
+
+</head>
+<!-- SET THE CONTROLLER -->
+<body ng-controller="mainController">
+	<div class="container">
+
+		<!-- HEADER AND FOOD COUNT -->
+		<div class="jumbotron text-center">
+			<h1>Food for Emeril</h1>
+			<h5>Total Orders: <span class="label label-info">{{ foods.length }}</span></h5>
+		</div>
+
+		<!-- FOOD LIST -->
+		<div id="food-list" class="row">
+			<!-- FOOD HEADER -->
+			<div class="row">
+				<div class="col-sm-3 col-sm-offset-3 text-center"><label>Food Name</label></div>
+				<div class="col-sm-3 text-center"><label>Food Price</label></div>
+			</div>
+			<!-- LOOP OVER THE FOODS IN $scope.foods -->
+			<div ng-repeat="food in foods">
+				<div class="row">
+					<div class="col-sm-3 col-sm-offset-3 text-center">{{ food.name }}</div>
+					<div class="col-sm-3 text-center">{{ food.price }}</div>
+					<div>
+						<button type="button" class="btn btn-danger btn-sm" ng-click="deleteFood(food._id)">Delete</button>
+					</div>
+				</div>
+			</div>
+			<!-- LOADING -->
+			<p class="text-center" ng-show="loading">
+				<span class="fa fa-spinner fa-spin fa-3x"></span>
+			</p>
+		</div>
+
+		<!-- FORM TO CREATE FOODS -->
+		<div id="food-form" class="row">
+			<form>
+				<div class="row">
+					<div class="col-sm-4 col-sm-offset-2 text-center">
+						<div class="form-group">
+							<input type="text" class="form-control input-lg text-center" placeholder="Food Name" ng-model="formData.name">
+						</div>
+					</div>
+					<div class="col-sm-4 text-center">
+						<div class="form-group">
+							<input type="number" class="form-control input-lg text-center" placeholder="Food Price" ng-model="formData.price">
+						</div>
+					</div>
+				</div>
+				<div class="text-center">
+					<!-- createFood() WILL CREATE NEW FOODS -->
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="createFood()">Place Order</button>
+					<!-- getTotalBill() WILL GET TOTAL AMOUNT -->
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="getTotalBill()">Get Check</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="text-center">
+			<h3>Total Bill: <span class="label label-info">{{ total }}</span></h3>
+		</div>
+
+	</div>
+
+</body>
+</html>
